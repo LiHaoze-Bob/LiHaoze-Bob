@@ -1,4 +1,4 @@
-### Hi, I'm Bob 👋
+### <img width="220" height="25" src="https://glitch-art.vercel.app/api/simple?word=Hi%20I'm%20sychostar&font=Doto" alt="Hi I'm sychostar" /> 👋
 
 A student at Zhejiang University, exploring deep learning and AI agents.
 
