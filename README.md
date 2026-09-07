@@ -2,8 +2,8 @@
 
 <a href="https://www.last.fm/user/sychostar7">
   <img
-    width="360"
-    src="https://lastfm-api.batuhantrkgl.tech/api/widget/sychostar7?theme=auto"
+    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&width=420&cover=square&spin=never"
+    width="420"
     alt="Now Playing"
   />
 </a>
