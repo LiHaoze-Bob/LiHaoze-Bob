@@ -1,7 +1,7 @@
 <a href="https://www.last.fm/user/sychostar7">
   <img
     align="right"
-    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&amp;width=420&amp;cover=square&amp;spin=never"
+    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&amp;width=420&amp;cover=square&amp;spin=always"
     width="420"
     alt="Now Playing"
   />
