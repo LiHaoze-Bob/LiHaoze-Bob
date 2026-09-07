@@ -1,8 +1,16 @@
 ### <img width="220" height="25" src="https://glitch-art.vercel.app/api/simple?word=Hi%20I'm%20sychostar&font=Doto" alt="Hi I'm sychostar" /> 👋
 
-A student at Zhejiang University, exploring deep learning and AI agents.
-
-在学习中折腾，在折腾中学习。
-
-- Check out my [projects](https://github.com/LiHaoze-Bob?tab=repositories)
-- Talk with me by [Email](mailto:haoze.li@outlook.com)
+<picture>
+  <source
+    media="(prefers-color-scheme: dark)"
+    srcset="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake-dark.svg"
+  />
+  <source
+    media="(prefers-color-scheme: light)"
+    srcset="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake.svg"
+  />
+  <img
+    alt="LiHaoze-Bob contribution snake"
+    src="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake.svg"
+  />
+</picture>
