@@ -55,21 +55,21 @@ def aggregate(payload):
     if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
         raise UpdateError('Invalid or incomplete WakaTime summary.')
     total = 0
-    languages = {}
+    editors = {}
     for day in payload['data']:
-        if not isinstance(day, dict) or not isinstance(day.get('grand_total'), dict) or not isinstance(day.get('languages'), list):
+        if not isinstance(day, dict) or not isinstance(day.get('grand_total'), dict) or not isinstance(day.get('editors'), list):
             raise UpdateError('Invalid WakaTime daily summary.')
         total += seconds(day['grand_total'].get('total_seconds'))
-        for language in day['languages']:
-            if not isinstance(language, dict):
-                raise UpdateError('Invalid WakaTime language summary.')
-            name = language.get('name')
+        for editor in day['editors']:
+            if not isinstance(editor, dict):
+                raise UpdateError('Invalid WakaTime editor summary.')
+            name = editor.get('name')
             if not isinstance(name, str) or not name.strip() or '`' in name or any(ord(char) < 32 or ord(char) == 127 for char in name):
-                raise UpdateError('Invalid WakaTime language name.')
-            languages[name] = languages.get(name, 0) + seconds(language.get('total_seconds'))
-    if not math.isfinite(total) or any(not math.isfinite(value) for value in languages.values()):
+                raise UpdateError('Invalid WakaTime editor name.')
+            editors[name] = editors.get(name, 0) + seconds(editor.get('total_seconds'))
+    if not math.isfinite(total) or any(not math.isfinite(value) for value in editors.values()):
         raise UpdateError('Invalid WakaTime duration total.')
-    return total, sorted(languages.items(), key=lambda item: (-item[1], item[0]))
+    return total, sorted(editors.items(), key=lambda item: (-item[1], item[0]))
 
 
 def format_time(seconds):
@@ -81,18 +81,18 @@ def format_time(seconds):
 
 
 def render(payload, start, end):
-    total, languages = aggregate(payload)
+    total, editors = aggregate(payload)
     lines = ['```txt', 'Last 7 days (including today)',
              f'{start.isoformat()} - {end.isoformat()} ({TIMEZONE})',
              f'Total Time: {format_time(total)}', '']
     if total == 0:
-        if any(value > 0 for _, value in languages):
+        if any(value > 0 for _, value in editors):
             raise UpdateError('Inconsistent WakaTime totals.')
         lines.append('No activity tracked in this period.')
     else:
-        if not languages or sum(value for _, value in languages) > total + 1:
+        if not editors or sum(value for _, value in editors) > total + 1:
             raise UpdateError('Inconsistent WakaTime totals.')
-        rows = [(name, value) for name, value in languages if value > 0][:5]
+        rows = [(name, value) for name, value in editors if value > 0][:5]
         width = max((len(name) for name, _ in rows), default=0)
         for name, value in rows:
             percent = value / total * 100
