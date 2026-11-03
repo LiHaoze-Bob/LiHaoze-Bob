@@ -155,6 +155,48 @@ class UpdateWakatimeTests(unittest.TestCase):
             self.assertNotEqual(module.main(['--readme', str(self.readme)]), 0)
         self.assertEqual(self.readme.read_bytes(), ORIGINAL)
 
+    def test_obsidian_sums_only_its_editor_across_days(self):
+        module = self.module()
+        data = {'data': [
+            {'editors': [{'name': 'Obsidian', 'total_seconds': 3600},
+                         {'name': 'VS Code', 'total_seconds': 12000}]},
+            {'editors': [{'name': 'obsidian', 'total_seconds': 1920}]}]}
+        self.assertEqual(module.render_obsidian(data),
+                         '🔮 Time @Obsidian · **1 hr 32 mins** in the last 7 days')
+
+    def test_obsidian_empty_activity_is_honest(self):
+        for data in [{'data': []}, {'data': [{'editors': []}]},
+                     {'data': [{'editors': [{'name': 'VS Code', 'total_seconds': 3600}]}]}]:
+            self.assertIn('No activity tracked', self.module().render_obsidian(data))
+
+    def test_obsidian_missing_or_malformed_editor_data_preserves_both_sections(self):
+        module = self.module()
+        original = ORIGINAL + module.OBSIDIAN_START + b'\r\nold notes time\r\n' + module.OBSIDIAN_END
+        for editors in [None, {}, [{'name': 'Obsidian', 'total_seconds': -1}],
+                        [{'name': 'Obsidian', 'total_seconds': float('nan')}],
+                        [{'name': 'Obsidian', 'total_seconds': True}]]:
+            data = payload()
+            data['data'][0]['editors'] = editors
+            self.readme.write_bytes(original)
+            self.assertNotEqual(self.run_cli(data).returncode, 0)
+            self.assertEqual(self.readme.read_bytes(), original)
+
+    def test_obsidian_and_coding_update_together_preserving_manual_text(self):
+        module = self.module()
+        original = module.OBSIDIAN_START + b'\r\nold\r\n' + module.OBSIDIAN_END + b'\r\n' + ORIGINAL
+        self.readme.write_bytes(original)
+        data = payload()
+        data['data'][0]['editors'] = [{'name': 'Obsidian', 'total_seconds': 3600}]
+        result = self.run_cli(data)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        updated = self.readme.read_bytes()
+        self.assertIn('🔮 Time @Obsidian · **1 hr 0 mins**'.encode(), updated)
+        self.assertIn(b'Total Time: 1 hr 0 mins', updated)
+        self.assertTrue(updated.endswith(b'manual footer\r\n'))
+        self.assertIn('个人介绍\r\n'.encode(), updated)
+        self.assertEqual(self.run_cli(data).returncode, 0)
+        self.assertEqual(self.readme.read_bytes(), updated)
+
 
 if __name__ == '__main__':
     unittest.main()

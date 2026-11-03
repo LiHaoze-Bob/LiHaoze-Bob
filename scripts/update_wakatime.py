@@ -16,6 +16,8 @@ from zoneinfo import ZoneInfo
 TIMEZONE = 'Asia/Shanghai'
 START = b'<!--START_SECTION:waka-->'
 END = b'<!--END_SECTION:waka-->'
+OBSIDIAN_START = b'<!--START_SECTION:obsidian-->'
+OBSIDIAN_END = b'<!--END_SECTION:obsidian-->'
 
 
 class UpdateError(Exception):
@@ -100,11 +102,33 @@ def render(payload, start, end):
     return '\n'.join(lines + ['```'])
 
 
-def replace_section(original, content):
-    if original.count(START) != 1 or original.count(END) != 1:
+def render_obsidian(payload):
+    if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
+        raise UpdateError('Invalid or incomplete WakaTime summary.')
+    total = 0
+    for day in payload['data']:
+        if not isinstance(day, dict) or not isinstance(day.get('editors'), list):
+            raise UpdateError('WakaTime editor summaries are missing or invalid.')
+        for editor in day['editors']:
+            if not isinstance(editor, dict) or not isinstance(editor.get('name'), str):
+                raise UpdateError('Invalid WakaTime editor summary.')
+            value = editor.get('total_seconds')
+            if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
+                raise UpdateError('Invalid WakaTime editor duration.')
+            if editor['name'].strip().casefold() == 'obsidian':
+                total += value
+    if not math.isfinite(total):
+        raise UpdateError('Invalid WakaTime editor duration total.')
+    if total == 0:
+        return '🔮 Time @Obsidian · No activity tracked in the last 7 days yet.'
+    return f'🔮 Time @Obsidian · **{format_time(total)}** in the last 7 days'
+
+
+def replace_section(original, content, start_marker=START, end_marker=END):
+    if original.count(start_marker) != 1 or original.count(end_marker) != 1:
         raise UpdateError('README must contain exactly one pair of WakaTime markers.')
-    start = original.index(START) + len(START)
-    end = original.index(END)
+    start = original.index(start_marker) + len(start_marker)
+    end = original.index(end_marker)
     if start > end:
         raise UpdateError('README WakaTime markers are reversed.')
     newline = b'\r\n' if b'\r\n' in original else b'\n'
@@ -121,6 +145,8 @@ def main(argv=None):
         start, end = date_range()
         data = json.loads(args.data_file.read_bytes()) if args.data_file else fetch(start, end, os.environ.get('WAKATIME_TOKEN', ''))
         updated = replace_section(original, render(data, start, end))
+        if OBSIDIAN_START in original or OBSIDIAN_END in original:
+            updated = replace_section(updated, render_obsidian(data), OBSIDIAN_START, OBSIDIAN_END)
         if updated != original:
             args.readme.write_bytes(updated)
     except UpdateError as exc:

@@ -9,6 +9,10 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 #### 📝 Recent Posts
 
+<!--START_SECTION:obsidian-->
+🔮 Time @Obsidian · Waiting for the first update.
+<!--END_SECTION:obsidian-->
+
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
 <!-- notes:start -->
 - `#01` [Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
