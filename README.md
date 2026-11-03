@@ -49,17 +49,6 @@ No activity tracked
 </picture>
 
 
-#### 🎧 Now playing
-
-<a href="https://www.last.fm/user/sychostar7">
-  <img
-    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&amp;width=420&amp;cover=cd&amp;spin=always&amp;spin_speed=8&amp;v=da4f80e"
-    width="420"
-    alt="My latest listen on Last.fm"
-  />
-</a>
-
-<br>
 
 
 
