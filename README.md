@@ -1,14 +1,12 @@
 ### <img width="220" height="25" src="https://glitch-art.vercel.app/api/simple?word=Hi%20I%27m%20sychostar&amp;font=Doto" alt="Hi I'm sychostar" /> 👋
 
-I'm sychostar, a computer science student at Zhejiang University.
+I'm Haoze Li, an undergrad @Zhejiang University, majoring in computer science.
 
-Exploring deep learning, AI agents, and whatever sparks my curiosity.
+Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 
 I keep [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things I'm learning along the way.
 
-[Notes](https://lihaoze-bob.github.io/) · [RSS](https://lihaoze-bob.github.io/feed.xml) · [Last.fm](https://www.last.fm/user/sychostar7)
-
-#### 📝 Recent Notes
+#### 📝 Recent Posts
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
 <!-- notes:start -->
