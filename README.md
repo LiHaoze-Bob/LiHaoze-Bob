@@ -16,8 +16,6 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 - [Agent Capabilities 2: Context Management](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
 <!-- notes:end -->
 
-[More notes →](https://lihaoze-bob.github.io/)
-
 #### 👨🏻‍💻 Coding
 
 <!--START_SECTION:waka-->
