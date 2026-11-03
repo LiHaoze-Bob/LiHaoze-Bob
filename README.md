@@ -54,4 +54,4 @@ Git Config         11 mins  █░░░░░░░░░░░░░░░░�
   />
 </picture>
 
-[moreabout](https://lihaoze-bob.github.io/about/)
+### 🔗[More about Me](https://lihaoze-bob.github.io/about/)
