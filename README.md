@@ -19,6 +19,12 @@ I keep [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things
 
 [More notes →](https://lihaoze-bob.github.io/)
 
+#### 👨🏻‍💻 This Week I Code With
+
+<!--START_SECTION:waka-->
+No coding stats synced yet.
+<!--END_SECTION:waka-->
+
 #### 🎧 On repeat
 
 <a href="https://www.last.fm/user/sychostar7">

@@ -1,0 +1,52 @@
+name: Update WakaTime stats
+
+on:
+  workflow_dispatch:
+  schedule:
+    # Daily at 09:37 Asia/Shanghai, separate from the notes update.
+    - cron: "37 1 * * *"
+  push:
+    branches: [main]
+    paths: [.github/workflows/wakatime.yml]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: wakatime-profile
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check WakaTime connection
+        id: connection
+        env:
+          WAKATIME_TOKEN: ${{ secrets.WAKATIME_TOKEN }}
+        shell: bash
+        run: |
+          if [ -n "$WAKATIME_TOKEN" ]; then
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+            echo "Add the WAKATIME_TOKEN repository secret with an OAuth token from https://wakatime.com/oauth." >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Update weekly language stats
+        if: steps.connection.outputs.ready == 'true'
+        uses: athul/waka-readme@8991b596d85696d98ea96f775390a1bbe266c8c9
+        with:
+          # This action retains the old input name; WakaTime requires an OAuth token.
+          WAKATIME_API_KEY: ${{ secrets.WAKATIME_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          TARGET_BRANCH: main
+          TARGET_PATH: README.md
+          SECTION_NAME: waka
+          TIME_RANGE: last_7_days
+          LANG_COUNT: "5"
+          SHOW_TITLE: "false"
+          SHOW_TIME: "true"
+          SHOW_TOTAL: "false"
+          COMMIT_MESSAGE: "docs(profile): update weekly coding stats"
