@@ -26,11 +26,17 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 </picture>
 
 <!--START_SECTION:waka-->
-
 ```txt
-No activity tracked
-```
+Last 7 days (including today)
+2026-10-28 - 2026-11-03 (Asia/Shanghai)
+Total Time: 5 hrs 46 mins
 
+Other        4 hrs 10 mins  ██████████████░░░░░░   72.29%
+Typst              31 mins  ██░░░░░░░░░░░░░░░░░░    8.96%
+Markdown           21 mins  █░░░░░░░░░░░░░░░░░░░    6.16%
+JavaScript         16 mins  █░░░░░░░░░░░░░░░░░░░    4.88%
+Git Config         11 mins  █░░░░░░░░░░░░░░░░░░░    3.45%
+```
 <!--END_SECTION:waka-->
 <picture>
   <source
