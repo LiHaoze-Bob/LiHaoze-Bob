@@ -2,9 +2,9 @@
 I'm Haoze Li, an undergrad @Zhejiang University, majoring in computer science.
 Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 
-Read my [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things I'm learning along the way.
+Read my [notes](https://lihaoze-bob.github.io/) on things I'm learning along the way.
 
-Find me on<a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a>
+Find me on  <a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a>
 
 #### 📝 Recent Posts
 
@@ -26,7 +26,6 @@ No activity tracked
 ```
 
 <!--END_SECTION:waka-->
-
 <picture>
   <source
     media="(prefers-color-scheme: dark)"
@@ -44,7 +43,7 @@ No activity tracked
 </picture>
 
 
-#### 🎧 On repeat
+#### 🎧 Now playing
 
 <a href="https://www.last.fm/user/sychostar7">
   <img
