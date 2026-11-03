@@ -1,10 +1,9 @@
 ### <img width="220" height="25" src="https://glitch-art.vercel.app/api/simple?word=Hi%20I%27m%20sychostar&amp;font=Doto" alt="Hi I'm sychostar" /> 👋
-
 I'm Haoze Li, an undergrad @Zhejiang University, majoring in computer science.
-
 Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 
-I keep [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things I'm learning along the way.
+Read my [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things I'm learning along the way.
+Find me on<a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a>
 
 #### 📝 Recent Posts
 
@@ -54,9 +53,5 @@ No activity tracked
     src="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake.svg"
   />
 </picture>
-
-#### Find me on
-
-<a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a>
 
 
