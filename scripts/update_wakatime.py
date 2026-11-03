@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Update only the WakaTime README section using seven local calendar days."""
 import argparse
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from http.client import HTTPException
 import json
 import math
@@ -102,7 +102,7 @@ def render(payload, start, end):
     return '\n'.join(lines + ['```'])
 
 
-def render_obsidian(payload):
+def render_obsidian(payload, updated_at=None):
     if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
         raise UpdateError('Invalid or incomplete WakaTime summary.')
     total = 0
@@ -120,8 +120,13 @@ def render_obsidian(payload):
     if not math.isfinite(total):
         raise UpdateError('Invalid WakaTime editor duration total.')
     if total == 0:
-        return '🔮 Time @Obsidian · No activity tracked in the last 7 days yet.'
-    return f'🔮 Time @Obsidian · **{format_time(total)}** in the last 7 days'
+        text = '🔮 Time @Obsidian · No activity tracked in the last 7 days yet.'
+    else:
+        text = f'🔮 Time @Obsidian · **{format_time(total)}** in the last 7 days'
+    if updated_at is not None:
+        stamp = updated_at.astimezone(timezone.utc).isoformat(timespec='seconds').replace('+00:00', 'Z')
+        text += f'\n<!-- activity-updated-at: {stamp} -->'
+    return text
 
 
 def replace_section(original, content, start_marker=START, end_marker=END):
@@ -146,7 +151,7 @@ def main(argv=None):
         data = json.loads(args.data_file.read_bytes()) if args.data_file else fetch(start, end, os.environ.get('WAKATIME_TOKEN', ''))
         updated = replace_section(original, render(data, start, end))
         if OBSIDIAN_START in original or OBSIDIAN_END in original:
-            updated = replace_section(updated, render_obsidian(data), OBSIDIAN_START, OBSIDIAN_END)
+            updated = replace_section(updated, render_obsidian(data, datetime.now(timezone.utc)), OBSIDIAN_START, OBSIDIAN_END)
         if updated != original:
             args.readme.write_bytes(updated)
     except UpdateError as exc:

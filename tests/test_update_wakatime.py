@@ -169,6 +169,13 @@ class UpdateWakatimeTests(unittest.TestCase):
                      {'data': [{'editors': [{'name': 'VS Code', 'total_seconds': 3600}]}]}]:
             self.assertIn('No activity tracked', self.module().render_obsidian(data))
 
+    def test_obsidian_report_includes_the_actual_fetch_time(self):
+        module = self.module()
+        data = {'data': [{'editors': [{'name': 'Obsidian', 'total_seconds': 5280}]}]}
+        text = module.render_obsidian(data, datetime(2026, 11, 3, 13, 45, tzinfo=timezone.utc))
+        self.assertIn('**1 hr 28 mins**', text)
+        self.assertIn('<!-- activity-updated-at: 2026-11-03T13:45:00Z -->', text)
+
     def test_obsidian_missing_or_malformed_editor_data_preserves_both_sections(self):
         module = self.module()
         original = ORIGINAL + module.OBSIDIAN_START + b'\r\nold notes time\r\n' + module.OBSIDIAN_END
@@ -195,7 +202,10 @@ class UpdateWakatimeTests(unittest.TestCase):
         self.assertTrue(updated.endswith(b'manual footer\r\n'))
         self.assertIn('个人介绍\r\n'.encode(), updated)
         self.assertEqual(self.run_cli(data).returncode, 0)
-        self.assertEqual(self.readme.read_bytes(), updated)
+        # Fetch time can advance even when the recorded activity stays unchanged.
+        import re
+        without_time = lambda value: re.sub(rb'<!-- activity-updated-at: .*? -->', b'', value)
+        self.assertEqual(without_time(self.readme.read_bytes()), without_time(updated))
 
 
 if __name__ == '__main__':

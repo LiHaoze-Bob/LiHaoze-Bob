@@ -3,8 +3,8 @@ name: Update WakaTime stats
 on:
   workflow_dispatch:
   schedule:
-    # Daily at 09:37 Asia/Shanghai, separate from the notes update.
-    - cron: "37 1 * * *"
+    # Hourly at minute 37 so today's activity does not stay frozen all day.
+    - cron: "37 * * * *"
   push:
     branches: [main]
     paths:
