@@ -37,9 +37,6 @@ No activity tracked
   />
 </a>
 
-<details>
-<summary>A little contribution snake</summary>
-
 <br>
 
 <picture>
@@ -57,8 +54,6 @@ No activity tracked
     src="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake.svg"
   />
 </picture>
-
-</details>
 
 #### Find me on
 
