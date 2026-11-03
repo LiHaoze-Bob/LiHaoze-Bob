@@ -20,10 +20,16 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 #### 👨🏻‍💻 Coding
 
+*A little snapshot of what I've been working on.*
+
+**📊 GitHub activity**
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://github-stats-extended.vercel.app/api?username=LiHaoze-Bob&amp;show_icons=true&amp;hide_border=true&amp;theme=github_dark" />
   <img src="https://github-stats-extended.vercel.app/api?username=LiHaoze-Bob&amp;show_icons=true&amp;hide_border=true&amp;theme=default" width="467" alt="sychostar's GitHub statistics" />
 </picture>
+
+**⏱️ This week**
 
 <!--START_SECTION:waka-->
 ```txt
@@ -38,6 +44,9 @@ JavaScript         16 mins  █░░░░░░░░░░░░░░░░�
 Git Config         11 mins  █░░░░░░░░░░░░░░░░░░░    3.45%
 ```
 <!--END_SECTION:waka-->
+
+**🐍 My contribution trail**
+
 <picture>
   <source
     media="(prefers-color-scheme: dark)"
