@@ -5,7 +5,7 @@ Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 Read my [notes](https://lihaoze-bob.github.io/) on things I'm learning along the way.
 
 Find me @  <a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a> &nbsp;·&nbsp; <a href="https://www.zhihu.com/people/sychostar"><img src="https://cdn.simpleicons.org/zhihu/0084FF" width="16" height="16" alt="" /> 知乎</a><br>
-Reach me @ <a href="mailto:gmail"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" width="18" height="14" alt="Gmail" /> Gmail</a>
+Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikimedia.org/wikipedia/commons/7/7e/Gmail_icon_%282020%29.svg" width="18" height="14" alt="Gmail" /> Gmail</a>
 
 #### 📝 Recent Posts
 
