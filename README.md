@@ -10,9 +10,9 @@ I keep [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
 <!-- notes:start -->
-- [lec04](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
+- [Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
 - [Dynamic Programming](https://lihaoze-bob.github.io/courses/ADS-ZJU/Dynamic%20Programming/)
-- [lec03](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
+- [Agent Capabilities 2: Context Management](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
 <!-- notes:end -->
 
 [More notes →](https://lihaoze-bob.github.io/)

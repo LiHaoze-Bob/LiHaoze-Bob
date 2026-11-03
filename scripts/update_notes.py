@@ -2,6 +2,8 @@
 """Refresh the marked latest-notes list from an RSS feed (standard library only)."""
 import argparse
 import html
+from html.parser import HTMLParser
+from http.client import HTTPException
 from pathlib import Path
 import re
 import sys
@@ -45,7 +47,59 @@ def parse_feed(data):
     return notes
 
 
-def update_readme(readme, data):
+class SubtitleParser(HTMLParser):
+    """Collect visible inline text from the first nonempty note subtitle."""
+    VOID_TAGS = {'area', 'base', 'br', 'col', 'embed', 'hr', 'img', 'input',
+                 'link', 'meta', 'param', 'source', 'track', 'wbr'}
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.tags = []
+        self.parts = []
+        self.subtitle = ''
+
+    def handle_starttag(self, tag, attrs):
+        if self.subtitle:
+            return
+        classes = (dict(attrs).get('class') or '').split()
+        if self.tags or 'note-subtitle' in classes:
+            if tag not in self.VOID_TAGS:
+                self.tags.append(tag)
+            elif tag == 'br':
+                self.parts.append(' ')
+
+    def handle_endtag(self, tag):
+        if tag in self.tags:
+            self.tags = self.tags[:len(self.tags) - 1 - self.tags[::-1].index(tag)]
+            if not self.tags:
+                self.subtitle = ' '.join(''.join(self.parts).split())
+                self.parts = []
+
+    def handle_data(self, data):
+        if self.tags:
+            self.parts.append(data)
+
+
+def extract_subtitle(page):
+    parser = SubtitleParser()
+    parser.feed(page.decode('utf-8') if isinstance(page, bytes) else page)
+    parser.close()
+    return parser.subtitle
+
+
+def same_origin(url):
+    source, target = urlsplit(FEED_URL), urlsplit(url)
+    return (target.scheme, target.hostname, target.port or (443 if target.scheme == 'https' else 80)) == (
+        source.scheme, source.hostname, source.port or (443 if source.scheme == 'https' else 80))
+
+
+def fetch_url(url):
+    request = Request(url, headers={'User-Agent': 'github-profile-notes/1.0'})
+    with urlopen(request, timeout=20) as response:
+        return response.read()
+
+
+def update_readme(readme, data, load_page=None):
     """Replace only the marker contents, writing only when bytes change."""
     original = readme.read_bytes()
     text = original.decode('utf-8')
@@ -57,6 +111,11 @@ def update_readme(readme, data):
         raise ValueError('README notes markers are reversed')
     lines = []
     for title, url in parse_feed(data):
+        if load_page is not None and same_origin(url):
+            try:
+                title = extract_subtitle(load_page(url)) or title
+            except (OSError, ValueError, HTTPException) as error:
+                print(f'Warning: could not load subtitle from {url}: {error}', file=sys.stderr)
         title = re.sub(r'([\\`*_[\]~])', r'\\\1', html.escape(title, quote=False))
         lines.append(f'- [{title}]({url})')
     newline = '\r\n' if text[start:].startswith('\r\n') else '\n'
@@ -77,11 +136,9 @@ def main(argv=None):
         if args.feed_file:
             data = args.feed_file.read_bytes()
         else:
-            request = Request(FEED_URL, headers={'User-Agent': 'github-profile-notes/1.0'})
-            with urlopen(request, timeout=20) as response:
-                data = response.read()
-        changed = update_readme(args.readme, data)
-    except (OSError, ValueError, ET.ParseError) as error:
+            data = fetch_url(FEED_URL)
+        changed = update_readme(args.readme, data, load_page=None if args.feed_file else fetch_url)
+    except (OSError, ValueError, ET.ParseError, HTTPException) as error:
         print(f'Could not update notes: {error}', file=sys.stderr)
         return 1
     print('Updated latest notes.' if changed else 'Latest notes are unchanged.')

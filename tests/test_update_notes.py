@@ -1,12 +1,19 @@
 """Exercise the updater CLI against temporary feeds and README files."""
 from pathlib import Path
+import contextlib
+import io
 import subprocess
 import sys
 import tempfile
 import unittest
+from unittest.mock import patch
+from urllib.error import URLError
 from xml.sax.saxutils import escape
 
 SCRIPT = Path(__file__).resolve().parents[1] / 'scripts' / 'update_notes.py'
+sys.path.insert(0, str(SCRIPT.parent))
+import update_notes
+
 START = '<!-- notes:start -->'
 END = '<!-- notes:end -->'
 ORIGINAL = f'介绍\r\n{START}\r\nold content\r\n{END}\r\nfooter\r\n'
@@ -81,6 +88,74 @@ class UpdateNotesTests(unittest.TestCase):
                 result = self.run_updater(feed([('One', 'https://example.com/1')]))
                 self.assertNotEqual(result.returncode, 0)
                 self.assertEqual(self.readme.read_text(), text)
+
+    def test_extracts_subtitle_class_token_and_nested_text(self):
+        page = ('<title>lec04</title><h1>lec04</h1>'
+                '<span class="title-secondary">Navigation</span>'
+                '<p class="note-subtitle astro-123">Skills <em>and</em> Memory &amp; Tools</p>'
+                '<p>Unrelated text</p>')
+        self.assertEqual(update_notes.extract_subtitle(page), 'Skills and Memory & Tools')
+        self.assertEqual(update_notes.extract_subtitle('<p class="not-note-subtitle">No</p>'), '')
+
+    def test_enriched_title_is_escaped_before_rendering(self):
+        update_notes.update_readme(
+            self.readme, feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]),
+            load_page=lambda url: '<p class="note-subtitle">Skills [x] *and* &lt;Memory&gt;</p>',
+        )
+        self.assertIn('- [Skills \\[x\\] \\*and\\* &lt;Memory&gt;]', self.readme.read_text())
+
+    def test_missing_or_empty_subtitle_preserves_rss_title(self):
+        for page in ['<h1>lec04</h1><span class="title-secondary">Navigation</span>',
+                     '<p class="note-subtitle">  </p>']:
+            with self.subTest(page=page):
+                update_notes.update_readme(
+                    self.readme, feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]),
+                    load_page=lambda url: page,
+                )
+                self.assertIn('- [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
+
+    def test_page_failure_warns_and_falls_back_without_erasing_notes(self):
+        def failed_loader(url):
+            raise URLError('unavailable')
+        warnings = io.StringIO()
+        with contextlib.redirect_stderr(warnings):
+            update_notes.update_readme(
+                self.readme, feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]),
+                load_page=failed_loader,
+            )
+        self.assertIn('Warning', warnings.getvalue())
+        self.assertIn('- [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
+
+    def test_enrichment_fetches_only_selected_same_origin_pages(self):
+        loaded = []
+        def loader(url):
+            loaded.append(url)
+            return '<p class="note-subtitle">Full title</p>'
+        update_notes.update_readme(self.readme, feed([
+            ('External', 'https://other.example/article'),
+            ('Wrong scheme', 'http://lihaoze-bob.github.io/article'),
+            ('Own', 'https://lihaoze-bob.github.io/lec04/'),
+            ('Extra', 'https://lihaoze-bob.github.io/lec03/'),
+        ]), load_page=loader)
+        self.assertEqual(loaded, ['https://lihaoze-bob.github.io/lec04/'])
+        self.assertIn('- [Full title]', self.readme.read_text())
+
+    def test_live_mode_enriches_but_local_feed_mode_remains_offline(self):
+        xml = feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]).encode()
+        loaded = []
+        def loader(url):
+            loaded.append(url)
+            return xml if url == update_notes.FEED_URL else b'<p class="note-subtitle">Skills and Memory</p>'
+        with patch.object(update_notes, 'fetch_url', side_effect=loader):
+            self.assertEqual(update_notes.main(['--readme', str(self.readme)]), 0)
+        self.assertEqual(loaded, [update_notes.FEED_URL, 'https://lihaoze-bob.github.io/lec04/'])
+        self.assertIn('- [Skills and Memory]', self.readme.read_text())
+        self.feed.write_bytes(xml)
+        def offline_loader(url):
+            self.fail('Local feed mode attempted a network request')
+        with patch.object(update_notes, 'fetch_url', side_effect=offline_loader):
+            self.assertEqual(update_notes.main(['--readme', str(self.readme), '--feed-file', str(self.feed)]), 0)
+        self.assertIn('- [lec04]', self.readme.read_text())
 
     def test_missing_feed_file_leaves_readme_untouched(self):
         result = subprocess.run(
