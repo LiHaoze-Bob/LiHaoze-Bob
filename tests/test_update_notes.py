@@ -45,7 +45,7 @@ class UpdateNotesTests(unittest.TestCase):
         result = self.run_updater(feed([('第一篇', 'https://example.com/one')]))
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.readme.read_bytes(),
-                         f'介绍\r\n{START}\r\n- [第一篇](https://example.com/one)\r\n{END}\r\nfooter\r\n'.encode())
+                         f'介绍\r\n{START}\r\n- `#01` [第一篇](https://example.com/one)\r\n{END}\r\nfooter\r\n'.encode())
 
     def test_unchanged_output_is_not_rewritten(self):
         xml = feed([('One', 'https://example.com/one')])
@@ -54,23 +54,24 @@ class UpdateNotesTests(unittest.TestCase):
         self.assertEqual(self.run_updater(xml).returncode, 0)
         self.assertEqual(self.readme.stat().st_mtime_ns, previous)
 
-    def test_uses_first_three_valid_unique_links_in_source_order(self):
+    def test_uses_first_five_valid_unique_links_in_source_order(self):
         result = self.run_updater(feed([
             ('Bad', 'javascript:alert(1)'), ('', 'https://example.com/empty'),
             ('One', 'https://example.com/1'), ('Duplicate', 'https://example.com/1'),
             ('Two', 'https://example.com/2'), ('Three', 'https://example.com/3'),
-            ('Four', 'https://example.com/4'),
+            ('Four', 'https://example.com/4'), ('Five', 'https://example.com/5'),
+            ('Six', 'https://example.com/6'),
         ]))
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(self.readme.read_bytes(),
-                         f'介绍\r\n{START}\r\n- [One](https://example.com/1)\r\n- [Two](https://example.com/2)\r\n- [Three](https://example.com/3)\r\n{END}\r\nfooter\r\n'.encode())
+                         f'介绍\r\n{START}\r\n- `#01` [One](https://example.com/1)\r\n- `#02` [Two](https://example.com/2)\r\n- `#03` [Three](https://example.com/3)\r\n- `#04` [Four](https://example.com/4)\r\n- `#05` [Five](https://example.com/5)\r\n{END}\r\nfooter\r\n'.encode())
 
     def test_escapes_title_and_encodes_link(self):
         result = self.run_updater(feed([
             ('A [link] *bold* <img> & \\ code`\nnext', 'https://example.com/a (b)/中文?q=x y&z=1')
         ]))
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertIn('- [A \\[link\\] \\*bold\\* &lt;img&gt; &amp; \\\\ code\\` next](https://example.com/a%20%28b%29/%E4%B8%AD%E6%96%87?q=x%20y&z=1)', self.readme.read_text())
+        self.assertIn('- `#01` [A \\[link\\] \\*bold\\* &lt;img&gt; &amp; \\\\ code\\` next](https://example.com/a%20%28b%29/%E4%B8%AD%E6%96%87?q=x%20y&z=1)', self.readme.read_text())
 
     def test_empty_malformed_and_non_rss_feeds_leave_readme_untouched(self):
         for xml in ['', '<rss>', '<rss><channel /></rss>', '<html />',
@@ -102,7 +103,7 @@ class UpdateNotesTests(unittest.TestCase):
             self.readme, feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]),
             load_page=lambda url: '<p class="note-subtitle">Skills [x] *and* &lt;Memory&gt;</p>',
         )
-        self.assertIn('- [Skills \\[x\\] \\*and\\* &lt;Memory&gt;]', self.readme.read_text())
+        self.assertIn('- `#01` [Skills \\[x\\] \\*and\\* &lt;Memory&gt;]', self.readme.read_text())
 
     def test_missing_or_empty_subtitle_preserves_rss_title(self):
         for page in ['<h1>lec04</h1><span class="title-secondary">Navigation</span>',
@@ -112,7 +113,7 @@ class UpdateNotesTests(unittest.TestCase):
                     self.readme, feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]),
                     load_page=lambda url: page,
                 )
-                self.assertIn('- [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
+                self.assertIn('- `#01` [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
 
     def test_page_failure_warns_and_falls_back_without_erasing_notes(self):
         def failed_loader(url):
@@ -124,7 +125,7 @@ class UpdateNotesTests(unittest.TestCase):
                 load_page=failed_loader,
             )
         self.assertIn('Warning', warnings.getvalue())
-        self.assertIn('- [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
+        self.assertIn('- `#01` [lec04](https://lihaoze-bob.github.io/lec04/)', self.readme.read_text())
 
     def test_enrichment_fetches_only_selected_same_origin_pages(self):
         loaded = []
@@ -135,10 +136,14 @@ class UpdateNotesTests(unittest.TestCase):
             ('External', 'https://other.example/article'),
             ('Wrong scheme', 'http://lihaoze-bob.github.io/article'),
             ('Own', 'https://lihaoze-bob.github.io/lec04/'),
-            ('Extra', 'https://lihaoze-bob.github.io/lec03/'),
+            ('Fourth', 'https://lihaoze-bob.github.io/lec03/'),
+            ('Fifth', 'https://lihaoze-bob.github.io/lec02/'),
+            ('Extra', 'https://lihaoze-bob.github.io/lec01/'),
         ]), load_page=loader)
-        self.assertEqual(loaded, ['https://lihaoze-bob.github.io/lec04/'])
-        self.assertIn('- [Full title]', self.readme.read_text())
+        self.assertEqual(loaded, ['https://lihaoze-bob.github.io/lec04/',
+                                  'https://lihaoze-bob.github.io/lec03/',
+                                  'https://lihaoze-bob.github.io/lec02/'])
+        self.assertIn('- `#03` [Full title]', self.readme.read_text())
 
     def test_live_mode_enriches_but_local_feed_mode_remains_offline(self):
         xml = feed([('lec04', 'https://lihaoze-bob.github.io/lec04/')]).encode()
@@ -149,13 +154,13 @@ class UpdateNotesTests(unittest.TestCase):
         with patch.object(update_notes, 'fetch_url', side_effect=loader):
             self.assertEqual(update_notes.main(['--readme', str(self.readme)]), 0)
         self.assertEqual(loaded, [update_notes.FEED_URL, 'https://lihaoze-bob.github.io/lec04/'])
-        self.assertIn('- [Skills and Memory]', self.readme.read_text())
+        self.assertIn('- `#01` [Skills and Memory]', self.readme.read_text())
         self.feed.write_bytes(xml)
         def offline_loader(url):
             self.fail('Local feed mode attempted a network request')
         with patch.object(update_notes, 'fetch_url', side_effect=offline_loader):
             self.assertEqual(update_notes.main(['--readme', str(self.readme), '--feed-file', str(self.feed)]), 0)
-        self.assertIn('- [lec04]', self.readme.read_text())
+        self.assertIn('- `#01` [lec04]', self.readme.read_text())
 
     def test_missing_feed_file_leaves_readme_untouched(self):
         result = subprocess.run(

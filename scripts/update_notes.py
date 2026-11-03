@@ -17,7 +17,7 @@ END = '<!-- notes:end -->'
 
 
 def parse_feed(data):
-    """Return the first three unique, usable RSS titles and HTTP(S) links."""
+    """Return the first five unique, usable RSS titles and HTTP(S) links."""
     root = ET.fromstring(data)
     if root.tag != 'rss' or root.find('channel') is None:
         raise ValueError('Expected an RSS feed with a channel')
@@ -40,7 +40,7 @@ def parse_feed(data):
             continue
         seen.add(url)
         notes.append((title, url))
-        if len(notes) == 3:
+        if len(notes) == 5:
             break
     if not notes:
         raise ValueError('RSS feed contains no usable notes')
@@ -110,14 +110,14 @@ def update_readme(readme, data, load_page=None):
     if start > end:
         raise ValueError('README notes markers are reversed')
     lines = []
-    for title, url in parse_feed(data):
+    for number, (title, url) in enumerate(parse_feed(data), start=1):
         if load_page is not None and same_origin(url):
             try:
                 title = extract_subtitle(load_page(url)) or title
             except (OSError, ValueError, HTTPException) as error:
                 print(f'Warning: could not load subtitle from {url}: {error}', file=sys.stderr)
         title = re.sub(r'([\\`*_[\]~])', r'\\\1', html.escape(title, quote=False))
-        lines.append(f'- [{title}]({url})')
+        lines.append(f'- `#{number:02d}` [{title}]({url})')
     newline = '\r\n' if text[start:].startswith('\r\n') else '\n'
     updated = (text[:start] + newline + newline.join(lines) + newline + text[end:]).encode('utf-8')
     if updated == original:
