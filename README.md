@@ -2,6 +2,8 @@
 I'm Haoze Li, an undergrad @Zhejiang University, majoring in computer science.
 Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 
+**Know [More about Me](https://lihaoze-bob.github.io/about/)**
+
 Read my <a href="https://lihaoze-bob.github.io/"><img src="https://lihaoze-bob.github.io/assets/images/avatar.png" width="16" height="16" alt="" /> notes</a> on things I'm learning along the way.
 
 Find me @  <a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a> &nbsp;·&nbsp; <a href="https://www.zhihu.com/people/sychostar"><img src="https://cdn.simpleicons.org/zhihu/0084FF" width="16" height="16" alt="" /> 知乎</a><br>
@@ -67,4 +69,4 @@ JavaScript         16 mins  █░░░░░░░░░░░░░░░░�
   />
 </picture>
 
-#### 🔗[More about Me](https://lihaoze-bob.github.io/about/)
+
