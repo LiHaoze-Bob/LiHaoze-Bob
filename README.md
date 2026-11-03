@@ -33,7 +33,7 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
   <img src="https://github-stats-extended.vercel.app/api?username=LiHaoze-Bob&amp;show_icons=true&amp;hide_border=true&amp;theme=default" width="467" alt="sychostar's GitHub statistics" />
 </picture>
 
-**⏱️ Editor time · This week**
+**⏱️ This week**
 
 <!--START_SECTION:waka-->
 ```txt

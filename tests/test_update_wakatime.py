@@ -20,9 +20,9 @@ END = '<!--END_SECTION:waka-->'
 ORIGINAL = f'个人介绍\r\n{START}\r\nold\r\n{END}\r\nmanual footer\r\n'.encode()
 
 
-def payload(total=3600, editors=None):
-    return {'data': [{'grand_total': {'total_seconds': total}, 'editors':
-                     editors if editors is not None else [{'name': 'VS Code', 'total_seconds': total}]}]}
+def payload(total=3600, languages=None):
+    return {'data': [{'grand_total': {'total_seconds': total}, 'languages':
+                     languages if languages is not None else [{'name': 'Python', 'total_seconds': total}]}]}
 
 
 class UpdateWakatimeTests(unittest.TestCase):
@@ -50,13 +50,13 @@ class UpdateWakatimeTests(unittest.TestCase):
 
     def test_aggregates_days_and_sorts_ties_by_name(self):
         module = self.module()
-        data = payload(200, [{'name': 'Zed', 'total_seconds': 100}, {'name': 'Cursor', 'total_seconds': 100}])
-        data['data'].append(payload(100, [{'name': 'VS Code', 'total_seconds': 100}])['data'][0])
-        self.assertEqual(module.aggregate(data), (300, [('Cursor', 100), ('VS Code', 100), ('Zed', 100)]))
+        data = payload(200, [{'name': 'Zig', 'total_seconds': 100}, {'name': 'C', 'total_seconds': 100}])
+        data['data'].append(payload(100, [{'name': 'Python', 'total_seconds': 100}])['data'][0])
+        self.assertEqual(module.aggregate(data), (300, [('C', 100), ('Python', 100), ('Zig', 100)]))
 
-    def test_top_five_percentages_include_other_and_omitted_editors(self):
+    def test_top_five_percentages_include_other_and_omitted_languages(self):
         module = self.module()
-        names = ['A', 'B', 'Cursor', 'D', 'Other', 'Z']
+        names = ['A', 'B', 'C', 'D', 'Other', 'Z']
         data = payload(1000, [{'name': name, 'total_seconds': seconds} for name, seconds in
                               zip(names, [300, 200, 150, 100, 200, 50])])
         start, end = module.date_range(datetime(2026, 11, 3, tzinfo=timezone.utc))
@@ -69,28 +69,13 @@ class UpdateWakatimeTests(unittest.TestCase):
         self.assertNotIn('\nZ ', text)
         self.assertEqual(sum(line.endswith('%') for line in text.splitlines()), 5)
 
-    def test_displays_editors_instead_of_languages(self):
-        data = payload(6000, [{'name': 'Codex Vscode', 'total_seconds': 4500},
-                              {'name': 'Obsidian', 'total_seconds': 1200},
-                              {'name': 'VS Code', 'total_seconds': 300}])
-        data['data'][0]['languages'] = [{'name': 'Other', 'total_seconds': 6000}]
-        result = self.run_cli(data)
-        self.assertEqual(result.returncode, 0, result.stderr)
-        text = self.readme.read_text()
-        self.assertIn('Codex Vscode', text)
-        self.assertIn('Obsidian', text)
-        self.assertIn('75.00%', text)
-        self.assertIn('20.00%', text)
-        self.assertIn('5.00%', text)
-        self.assertNotIn('Other', text)
-
     def test_zero_activity_is_honest(self):
         for data in [payload(0, []), {'data': []}]:
             with self.subTest(data=data):
                 result = self.run_cli(data)
                 self.assertEqual(result.returncode, 0, result.stderr)
                 self.assertIn('No activity tracked in this period.', self.readme.read_text())
-                self.assertNotIn('VS Code', self.readme.read_text())
+                self.assertNotIn('Python', self.readme.read_text())
 
     def test_preserves_manual_bytes_and_is_idempotent(self):
         result = self.run_cli(payload())
@@ -111,10 +96,10 @@ class UpdateWakatimeTests(unittest.TestCase):
 
     def test_invalid_payload_never_writes(self):
         cases = [None, {}, {'data': None}, {'data': [{}]}, payload(-1), payload(float('nan')),
-                 payload(True), payload(1, [{'name': 'VS Code'}]), payload(1, None),
+                 payload(True), payload(1, [{'name': 'Python'}]), payload(1, None),
                  payload(1, [{'name': 'bad\n```', 'total_seconds': 1}]),
-                 payload(1, [{'name': 'VS Code', 'total_seconds': '1'}])]
-        cases[8] = {'data': [{'grand_total': {'total_seconds': 1}, 'editors': None}]}
+                 payload(1, [{'name': 'Python', 'total_seconds': '1'}])]
+        cases[8] = {'data': [{'grand_total': {'total_seconds': 1}, 'languages': None}]}
         for data in cases:
             with self.subTest(data=data):
                 result = self.run_cli(data)
