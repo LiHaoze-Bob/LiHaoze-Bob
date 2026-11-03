@@ -3,6 +3,7 @@ I'm Haoze Li, an undergrad @Zhejiang University, majoring in computer science.
 Currently exploring Deep Learning, AI Agents, and whatever sparks my curiosity.
 
 Read my [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things I'm learning along the way.
+
 Find me on<a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simpleicons.org/github/8957E5" width="16" height="16" alt="" /> GitHub</a> &nbsp;·&nbsp; <a href="https://space.bilibili.com/2118021600"><img src="https://cdn.simpleicons.org/bilibili/FB7299" width="16" height="16" alt="" /> 哔哩哔哩</a>
 
 #### 📝 Recent Posts
@@ -16,7 +17,7 @@ Find me on<a href="https://github.com/LiHaoze-Bob"><img src="https://cdn.simplei
 
 [More notes →](https://lihaoze-bob.github.io/)
 
-#### 👨🏻‍💻 This Week I Code With
+#### 👨🏻‍💻 Coding
 
 <!--START_SECTION:waka-->
 
@@ -25,18 +26,6 @@ No activity tracked
 ```
 
 <!--END_SECTION:waka-->
-
-#### 🎧 On repeat
-
-<a href="https://www.last.fm/user/sychostar7">
-  <img
-    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&amp;width=420&amp;cover=cd&amp;spin=always&amp;spin_speed=8&amp;v=da4f80e"
-    width="420"
-    alt="My latest listen on Last.fm"
-  />
-</a>
-
-<br>
 
 <picture>
   <source
@@ -53,5 +42,19 @@ No activity tracked
     src="https://raw.githubusercontent.com/LiHaoze-Bob/LiHaoze-Bob/output/github-snake.svg"
   />
 </picture>
+
+
+#### 🎧 On repeat
+
+<a href="https://www.last.fm/user/sychostar7">
+  <img
+    src="https://nowplaying-beryl.vercel.app/api/now-playing?user=sychostar7&amp;width=420&amp;cover=cd&amp;spin=always&amp;spin_speed=8&amp;v=da4f80e"
+    width="420"
+    alt="My latest listen on Last.fm"
+  />
+</a>
+
+<br>
+
 
 
