@@ -22,7 +22,11 @@ I keep [notes](https://lihaoze-bob.github.io/) on coursework, papers, and things
 #### 👨🏻‍💻 This Week I Code With
 
 <!--START_SECTION:waka-->
-No coding stats synced yet.
+
+```txt
+No activity tracked
+```
+
 <!--END_SECTION:waka-->
 
 #### 🎧 On repeat
