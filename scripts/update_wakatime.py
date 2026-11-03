@@ -46,7 +46,7 @@ def fetch(start, end, token):
         raise UpdateError('Unable to retrieve a valid WakaTime summary.') from None
 
 
-def aggregate(payload):
+def aggregate(payload, category='languages'):
     def seconds(value):
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value < 0:
             raise UpdateError('Invalid WakaTime duration.')
@@ -55,21 +55,21 @@ def aggregate(payload):
     if not isinstance(payload, dict) or not isinstance(payload.get('data'), list):
         raise UpdateError('Invalid or incomplete WakaTime summary.')
     total = 0
-    languages = {}
+    entries = {}
     for day in payload['data']:
-        if not isinstance(day, dict) or not isinstance(day.get('grand_total'), dict) or not isinstance(day.get('languages'), list):
+        if not isinstance(day, dict) or not isinstance(day.get('grand_total'), dict) or not isinstance(day.get(category), list):
             raise UpdateError('Invalid WakaTime daily summary.')
         total += seconds(day['grand_total'].get('total_seconds'))
-        for language in day['languages']:
-            if not isinstance(language, dict):
-                raise UpdateError('Invalid WakaTime language summary.')
-            name = language.get('name')
+        for entry in day[category]:
+            if not isinstance(entry, dict):
+                raise UpdateError('Invalid WakaTime entry summary.')
+            name = entry.get('name')
             if not isinstance(name, str) or not name.strip() or '`' in name or any(ord(char) < 32 or ord(char) == 127 for char in name):
-                raise UpdateError('Invalid WakaTime language name.')
-            languages[name] = languages.get(name, 0) + seconds(language.get('total_seconds'))
-    if not math.isfinite(total) or any(not math.isfinite(value) for value in languages.values()):
+                raise UpdateError('Invalid WakaTime entry name.')
+            entries[name] = entries.get(name, 0) + seconds(entry.get('total_seconds'))
+    if not math.isfinite(total) or any(not math.isfinite(value) for value in entries.values()):
         raise UpdateError('Invalid WakaTime duration total.')
-    return total, sorted(languages.items(), key=lambda item: (-item[1], item[0]))
+    return total, sorted(entries.items(), key=lambda item: (-item[1], item[0]))
 
 
 def format_time(seconds):
@@ -82,9 +82,17 @@ def format_time(seconds):
 
 def render(payload, start, end):
     total, languages = aggregate(payload)
+    _, editors = aggregate(payload, 'editors')
+    if sum(value for _, value in editors) > total + 1:
+        raise UpdateError('Inconsistent WakaTime editor totals.')
+    # WakaTime reports the Codex integration as "Codex Vscode".
+    codex = sum(value for name, value in editors if name.strip().casefold() in {'codex', 'codex vscode'})
+    vscode = sum(value for name, value in editors if name.strip().casefold() == 'vs code')
     lines = ['```txt', 'Last 7 days (including today)',
              f'{start.isoformat()} - {end.isoformat()} ({TIMEZONE})',
-             f'Total Time: {format_time(total)}', '']
+             f'Total Time: {format_time(total)}', '',
+             'Editors', f'Codex: {format_time(codex)}', f'VS Code: {format_time(vscode)}',
+             '', 'Languages']
     if total == 0:
         if any(value > 0 for _, value in languages):
             raise UpdateError('Inconsistent WakaTime totals.')

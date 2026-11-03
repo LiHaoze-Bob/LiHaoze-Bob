@@ -21,7 +21,7 @@ ORIGINAL = f'个人介绍\r\n{START}\r\nold\r\n{END}\r\nmanual footer\r\n'.encod
 
 
 def payload(total=3600, languages=None):
-    return {'data': [{'grand_total': {'total_seconds': total}, 'languages':
+    return {'data': [{'grand_total': {'total_seconds': total}, 'editors': [], 'languages':
                      languages if languages is not None else [{'name': 'Python', 'total_seconds': total}]}]}
 
 
@@ -68,6 +68,42 @@ class UpdateWakatimeTests(unittest.TestCase):
         self.assertIn('Other', text)
         self.assertNotIn('\nZ ', text)
         self.assertEqual(sum(line.endswith('%') for line in text.splitlines()), 5)
+
+    def test_editor_times_are_separate_from_language_totals(self):
+        module = self.module()
+        data = payload(7200, [{'name': 'Other', 'total_seconds': 7200}])
+        data['data'][0]['editors'] = [
+            {'name': 'Codex Vscode', 'total_seconds': 3600},
+            {'name': 'VS Code', 'total_seconds': 1200},
+            {'name': 'Obsidian', 'total_seconds': 2400}]
+        day = payload(1800, [{'name': 'Python', 'total_seconds': 1800}])['data'][0]
+        day['editors'] = [{'name': 'codex', 'total_seconds': 1200},
+                          {'name': ' VS CODE ', 'total_seconds': 600}]
+        data['data'].append(day)
+        start, end = module.date_range()
+        text = module.render(data, start, end)
+        self.assertIn('Total Time: 2 hrs 30 mins', text)
+        self.assertIn('Codex: 1 hr 20 mins', text)
+        self.assertIn('VS Code: 30 mins', text)
+        self.assertIn('Languages\nOther', text)
+        self.assertIn('80.00%', text)
+
+    def test_missing_editors_show_zero_without_using_other_as_codex(self):
+        module = self.module()
+        start, end = module.date_range()
+        text = module.render(payload(), start, end)
+        self.assertIn('Codex: 0 secs', text)
+        self.assertIn('VS Code: 0 secs', text)
+
+    def test_invalid_editor_data_preserves_existing_readme(self):
+        for editors in [None, {}, [None], [{'name': 'Codex', 'total_seconds': -1}],
+                        [{'name': 'Codex', 'total_seconds': True}],
+                        [{'name': 'Codex', 'total_seconds': float('inf')}],
+                        [{'name': 'VS Code', 'total_seconds': 3602}]]:
+            data = payload()
+            data['data'][0]['editors'] = editors
+            self.assertNotEqual(self.run_cli(data).returncode, 0)
+            self.assertEqual(self.readme.read_bytes(), ORIGINAL)
 
     def test_zero_activity_is_honest(self):
         for data in [payload(0, []), {'data': []}]:
