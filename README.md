@@ -41,9 +41,11 @@ Last 7 days (including today)
 2026-10-28 - 2026-11-03 (Asia/Shanghai)
 Total Time: 6 hrs 37 mins
 
-Codex Vscode   5 hrs 46 mins  █████████████████░░░   87.12%
-Obsidian             41 mins  ██░░░░░░░░░░░░░░░░░░   10.50%
-VS Code               9 mins  ░░░░░░░░░░░░░░░░░░░░    2.38%
+Other        4 hrs 17 mins  █████████████░░░░░░░   64.81%
+Markdown           31 mins  ██░░░░░░░░░░░░░░░░░░    7.97%
+Typst              31 mins  ██░░░░░░░░░░░░░░░░░░    7.79%
+Python             27 mins  █░░░░░░░░░░░░░░░░░░░    6.97%
+JavaScript         16 mins  █░░░░░░░░░░░░░░░░░░░    4.24%
 ```
 <!--END_SECTION:waka-->
 
