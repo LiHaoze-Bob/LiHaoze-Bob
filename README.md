@@ -18,11 +18,11 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
 <!-- notes:start -->
-- `#01` [Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
-- `#02` [Dynamic Programming](https://lihaoze-bob.github.io/courses/ADS-ZJU/Dynamic%20Programming/)
-- `#03` [Agent Capabilities 2: Context Management](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
-- `#04` [Vivado介绍和模块封装](https://lihaoze-bob.github.io/courses/CO-ZJU/lab0/)
-- `#05` [乘除与浮点加法](https://lihaoze-bob.github.io/courses/CO-ZJU/lab3/)
+- `#01` [01-Prelude](https://lihaoze-bob.github.io/courses/CO-ZJU/01-Prelude/)
+- `#02` [Agent Capabilities 3: Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
+- `#03` [Dynamic Programming](https://lihaoze-bob.github.io/courses/ADS-ZJU/Dynamic%20Programming/)
+- `#04` [Agent Capabilities 2: Context Management](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
+- `#05` [Vivado介绍和模块封装](https://lihaoze-bob.github.io/courses/CO-ZJU/lab0/)
 <!-- notes:end -->
 
 #### 👨🏻‍💻 Coding
