@@ -13,7 +13,7 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 <!--START_SECTION:obsidian-->
 🔮 Time @Obsidian · **13 hrs 38 mins** in the last 7 days
-<!-- activity-updated-at: 2026-11-08T17:13:16Z -->
+<!-- activity-updated-at: 2026-11-08T21:20:32Z -->
 <!--END_SECTION:obsidian-->
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
