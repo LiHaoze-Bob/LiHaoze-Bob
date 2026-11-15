@@ -12,8 +12,8 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 #### 📝 Recent Posts
 
 <!--START_SECTION:obsidian-->
-🔮 Time @Obsidian · **18 hrs 45 mins** in the last 7 days
-<!-- activity-updated-at: 2026-11-15T11:25:17Z -->
+🔮 Time @Obsidian · **14 hrs 20 mins** in the last 7 days
+<!-- activity-updated-at: 2026-11-15T17:56:51Z -->
 <!--END_SECTION:obsidian-->
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
@@ -41,19 +41,19 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 <!--START_SECTION:waka-->
 ```txt
 Last 7 days (including today)
-2026-11-09 - 2026-11-15 (Asia/Shanghai)
-Total Time: 19 hrs 42 mins
+2026-11-10 - 2026-11-16 (Asia/Shanghai)
+Total Time: 15 hrs 13 mins
 
 Editors
-Codex: 18 mins
-VS Code: 38 mins
+Codex: 17 mins
+VS Code: 34 mins
 
 Languages
-Other     13 hrs 48 mins  ██████████████░░░░░░   70.11%
-Markdown   4 hrs 37 mins  █████░░░░░░░░░░░░░░░   23.51%
-Python           29 mins  █░░░░░░░░░░░░░░░░░░░    2.51%
-Typst            23 mins  ░░░░░░░░░░░░░░░░░░░░    1.97%
-C                17 mins  ░░░░░░░░░░░░░░░░░░░░    1.50%
+Other     10 hrs 47 mins  ██████████████░░░░░░   70.96%
+Markdown   3 hrs 33 mins  █████░░░░░░░░░░░░░░░   23.38%
+Typst            23 mins  █░░░░░░░░░░░░░░░░░░░    2.54%
+C                17 mins  ░░░░░░░░░░░░░░░░░░░░    1.95%
+Python            5 mins  ░░░░░░░░░░░░░░░░░░░░    0.64%
 ```
 <!--END_SECTION:waka-->
 
