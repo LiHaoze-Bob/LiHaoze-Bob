@@ -18,11 +18,11 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
 <!-- notes:start -->
-- `#01` [分词器](https://lihaoze-bob.github.io/courses/Diy-LLM/%E5%88%86%E8%AF%8D%E5%99%A8/)
-- `#02` [01-Prelude](https://lihaoze-bob.github.io/courses/CO-ZJU/01-Prelude/)
-- `#03` [Agent Capabilities 3: Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
-- `#04` [Dynamic Programming](https://lihaoze-bob.github.io/courses/ADS-ZJU/Dynamic%20Programming/)
-- `#05` [Agent Capabilities 2: Context Management](https://lihaoze-bob.github.io/courses/Agents-CMU/lec03/)
+- `#01` [pytorch与资源核算](https://lihaoze-bob.github.io/courses/Diy-LLM/pytorch%E4%B8%8E%E8%B5%84%E6%BA%90%E6%A0%B8%E7%AE%97/)
+- `#02` [分词器](https://lihaoze-bob.github.io/courses/Diy-LLM/%E5%88%86%E8%AF%8D%E5%99%A8/)
+- `#03` [01-Prelude](https://lihaoze-bob.github.io/courses/CO-ZJU/01-Prelude/)
+- `#04` [Agent Capabilities 3: Skills and Memory](https://lihaoze-bob.github.io/courses/Agents-CMU/lec04/)
+- `#05` [Dynamic Programming](https://lihaoze-bob.github.io/courses/ADS-ZJU/Dynamic%20Programming/)
 <!-- notes:end -->
 
 #### 👨🏻‍💻 Coding
