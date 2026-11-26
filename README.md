@@ -13,7 +13,7 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 <!--START_SECTION:obsidian-->
 🔮 Time @Obsidian · **6 hrs 54 mins** in the last 7 days
-<!-- activity-updated-at: 2026-11-25T17:33:28Z -->
+<!-- activity-updated-at: 2026-11-26T01:07:41Z -->
 <!--END_SECTION:obsidian-->
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
@@ -50,7 +50,7 @@ VS Code: 1 hr 20 mins
 
 Languages
 Markdown   4 hrs 31 mins  ███████████░░░░░░░░░   54.85%
-Other      2 hrs 22 mins  ██████░░░░░░░░░░░░░░   28.84%
+Other      2 hrs 22 mins  ██████░░░░░░░░░░░░░░   28.83%
 Python      1 hr 20 mins  ███░░░░░░░░░░░░░░░░░   16.32%
 ```
 <!--END_SECTION:waka-->
