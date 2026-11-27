@@ -13,7 +13,7 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 
 <!--START_SECTION:obsidian-->
 🔮 Time @Obsidian · **12 hrs 9 mins** in the last 7 days
-<!-- activity-updated-at: 2026-11-27T13:00:42Z -->
+<!-- activity-updated-at: 2026-11-27T22:17:02Z -->
 <!--END_SECTION:obsidian-->
 
 <!-- Updated automatically. Edit outside these markers to keep your changes. -->
@@ -41,7 +41,7 @@ Reach me @ <a href="mailto:haozeli2025@gmail.com"><img src="https://upload.wikim
 <!--START_SECTION:waka-->
 ```txt
 Last 7 days (including today)
-2026-11-21 - 2026-11-27 (Asia/Shanghai)
+2026-11-22 - 2026-11-28 (Asia/Shanghai)
 Total Time: 13 hrs 47 mins
 
 Editors
